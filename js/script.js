@@ -1,4 +1,5 @@
 import wordArray from "./models/word-array.js";
+import alphabet from "./models/alphabet.js";
 
 import initialView from "./views/initial.js";
 import gameView from "./views/game.js";
@@ -37,13 +38,12 @@ function renderHangmanImage() {
 }
 
 /** Render all the letters of the alphabet as new elements appended to the letters-section
- *  of the game-view. Set dataset of each element to the current letter/char.
+ *  of the game-view.
  */
 function renderLetters() {
   state.alphabet.forEach((char) => {
     let letter = document.createElement("span");
     letter.innerText = char;
-    letter.dataset.char = char;
     state.letters.appendChild(letter);
   })
 }
@@ -70,9 +70,9 @@ function letterClickHandler(event) {
    *  
    *  If not: Update guesses and render new message.
    */
-  let char = clickedChar.dataset.char;
+  let char = clickedChar.innerText.toLowerCase();
   if (state.wordArr.includes(char)) {
-    let index = state.wordArr.indexOf(char, 0);
+    let index = state.wordArr.indexOf(char);
     while (index != -1) {
       /** For each hit in the array change the "?" to the clicked letter/key. */
       state.currentWord.children[index + 1].innerText = char;
@@ -140,7 +140,7 @@ function gameController() {
   state.messageBar = document.querySelector("#message-bar");
   state.letters = document.querySelector("#letters");
   state.endGame = document.querySelector("#end-game");
-  state.alphabet = "abcdefghijklmnopqrstuvwxyzåäö".split("");
+  state.alphabet = alphabet.toLowerCase().split("");
 
   renderCurrentWord();
   renderHangmanImage();
