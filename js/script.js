@@ -60,6 +60,9 @@ function attachGameControlls() {
 function letterClickHandler(event) {
   /** Find out what letter/key was clicked. */
   let clickedChar = event.target;
+
+  if (clickedChar.nodeName !== "SPAN") return;
+
   clickedChar.parentElement.removeChild(clickedChar);
 
   /** Check if the clicked letter/key is present in the current word.
