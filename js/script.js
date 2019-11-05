@@ -20,6 +20,7 @@ function renderView(view) {
   game.innerHTML = view(state);
 }
 
+
 /** Render placeholders for the current word to be guessed. Loop over the word-Array
  *  and for each character create a span-element containing a "?". Append the elements
  *  to the section for the word in the game-view. The true content of the letters
@@ -33,9 +34,11 @@ function renderCurrentWord() {
   });
 }
 
+
 function renderHangmanImage() {
   state.hangmanImage.src = `./images/h${state.guesses}.png`;
 }
+
 
 /** Render all the letters of the alphabet as new elements appended to the letters-section
  *  of the game-view.
@@ -49,15 +52,18 @@ function renderLetters() {
   })
 }
 
+
 function renderMessage(message = `Du har ${6 - state.guesses} gissningar kvar.`) {
   state.messageBar.innerHTML = `<p>${message}</p>`;
 }
+
 
 function attachGameControlls() {
   state.letters.addEventListener("click", letterClickHandler);
   state.endGame.addEventListener("click", init);
   window.addEventListener("keyup", keyPressHandler);
 }
+
 
 function letterClickHandler(event) {
   /** Find out what letter/key was clicked. */
@@ -73,8 +79,14 @@ function letterClickHandler(event) {
   checkForEndOfGame();
 }
 
+
 function keyPressHandler(event) {
   let pressedKey = event.key.toLowerCase();
+  if (pressedKey === " ") {
+    window.removeEventListener("keyup", keyPressHandler);
+    init();
+    return;
+  }
   if (!state.alphabet.includes(pressedKey) || state.pressedKeys.includes(pressedKey)) return true;
 
   state.pressedKeys.push(pressedKey);
@@ -119,6 +131,7 @@ function checkForCharInWord(char) {
   }
 }
 
+
 function checkForEndOfGame() {
   if (state.guesses === state.maxguesses) {
     renderView(lossView);
@@ -132,6 +145,7 @@ function checkForEndOfGame() {
   }
 }
 
+
 function init() {
   state = {
     guesses: 0,
@@ -141,6 +155,7 @@ function init() {
   renderView(initialView);
   initialController();
 }
+
 
 function initialController() {
   let startBtn = document.querySelector("#startBtn");
@@ -153,6 +168,7 @@ function initialController() {
 
   startBtn.addEventListener("click", startGame);
 }
+
 
 /**
  *  The main game-controller.
@@ -179,6 +195,7 @@ function gameController() {
   attachGameControlls();
 }
 
+
 function lossController() {
   window.removeEventListener("keyup", keyPressHandler);
   state.restart = document.querySelector("#restart");
@@ -190,6 +207,7 @@ function lossController() {
 
   state.restart.addEventListener("click", restartGame);
 }
+
 
 /**
  * The game has been won. Since the actions currently are the same as in the case of
