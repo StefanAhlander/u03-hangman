@@ -43,7 +43,8 @@ function renderHangmanImage() {
 function renderLetters() {
   state.alphabet.forEach((char) => {
     let letter = document.createElement("span");
-    letter.innerText = char;
+    letter.innerText = char.toLowerCase();
+    letter.dataset.char = char.toLowerCase();
     state.letters.appendChild(letter);
   })
 }
@@ -55,6 +56,7 @@ function renderMessage(message = `Du har ${6 - state.guesses} gissningar kvar.`)
 function attachGameControlls() {
   state.letters.addEventListener("click", letterClickHandler);
   state.endGame.addEventListener("click", init);
+  window.addEventListener("keyup", keyPressHandler);
 }
 
 function letterClickHandler(event) {
@@ -65,15 +67,38 @@ function letterClickHandler(event) {
 
   clickedChar.parentElement.removeChild(clickedChar);
 
-  /** Check if the clicked letter/key is present in the current word.
-   *    
-   *  If so: Change questionmark to the character and set the index in
-   *  the word-array to true. Continue search until no more
-   *  occurances.
-   *  
-   *  If not: Update guesses and render new message.
-   */
   let char = clickedChar.innerText.toLowerCase();
+
+  checkForCharInWord(char);
+  checkForEndOfGame();
+}
+
+function keyPressHandler(event) {
+  let pressedKey = event.key.toLowerCase();
+  if (!state.alphabet.includes(pressedKey) || state.pressedKeys.includes(pressedKey)) return true;
+
+  state.pressedKeys.push(pressedKey);
+
+  let keyElm = document.querySelector(`[data-char=${pressedKey}]`);
+
+  keyElm.parentElement.removeChild(keyElm);
+
+  checkForCharInWord(pressedKey);
+  checkForEndOfGame();
+
+  return true;
+}
+
+
+/** Check if the clicked letter/key is present in the current word.
+ *    
+ *  If so: Change questionmark to the character and set the index in
+ *  the word-array to true. Continue search until no more
+ *  occurances.
+ *  
+ *  If not: Update guesses and render new message.
+ */
+function checkForCharInWord(char) {
   if (state.wordArr.includes(char)) {
     let index = state.wordArr.indexOf(char);
     while (index != -1) {
@@ -92,8 +117,9 @@ function letterClickHandler(event) {
     renderHangmanImage();
     renderMessage();
   }
+}
 
-  /** Check for end or victory conditions. */
+function checkForEndOfGame() {
   if (state.guesses === state.maxguesses) {
     renderView(lossView);
     lossController();
@@ -144,6 +170,7 @@ function gameController() {
   state.letters = document.querySelector("#letters");
   state.endGame = document.querySelector("#end-game");
   state.alphabet = alphabet.toLowerCase().split("");
+  state.pressedKeys = [];
 
   renderCurrentWord();
   renderHangmanImage();
@@ -153,6 +180,7 @@ function gameController() {
 }
 
 function lossController() {
+  window.removeEventListener("keyup", keyPressHandler);
   state.restart = document.querySelector("#restart");
 
   function restartGame() {
