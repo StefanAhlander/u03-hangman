@@ -1,4 +1,4 @@
-export default function () {
+export default function (state) {
     return `
 <h2>Välkommen till spelet Hänga gubbe.</h2>
 <p>När du trycker på starta spelet, kommer datorn att välja ett ord slumpmässigt. <br/>

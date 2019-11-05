@@ -1,4 +1,4 @@
-export default function () {
+export default function (state) {
   return `
 <section id="current-word">
   <p>Ord att gissa: </p>
