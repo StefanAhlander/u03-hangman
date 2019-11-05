@@ -1,4 +1,5 @@
-export default `
+export default function () {
+  return `
 <section id="current-word">
   <p>Ord att gissa: </p>
 </section>
@@ -9,4 +10,5 @@ export default `
 
 <section id="letters"></section>
 
-<section><button id="end-game">Sluta spela</button></section>`;
+<section><button id="end-game">Sluta spela</button></section>`
+}
