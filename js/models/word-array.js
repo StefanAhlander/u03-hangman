@@ -1,1 +1,4 @@
-export default ["Flygplan", "Hyreshus", "Färja", "Dagstidning", "Internet", "Javascript", "Universitet", "Biskop", "Drake", "Brädspel", "Tiger", "Indonesien", "Kylskåp", "Fåtölj", "Yogamatta", "Damsugare", "Lärobok", "Kökslucka", "Annanas", "Juice"];
+export default ["flygplan", "villa", "färja", "hund", "internet", "javascript",
+    "katt", "biskop", "Drake", "byrå", "tiger", "båt", "kylskåp", "fåtölj",
+    "matta", "glas", "bok", "äpple", "annanas", "juice"
+];

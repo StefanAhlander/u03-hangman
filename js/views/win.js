@@ -5,7 +5,7 @@ export default function (state) {
 </section>
 
 <section id="hangman-image-section">
-  <img src="../../images/h5.png" id="hangman-image"></img>
+  <img src="../../images/victory-image.jpg" id="hangman-image"></img>
 </section>
 
 <section id="message-bar">
