@@ -59,7 +59,8 @@ button {
   color: whitesmoke;
   border: 1px solid rgb(58, 111, 160);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: rgb(38, 73, 105);
   }
 }
@@ -69,7 +70,8 @@ button {
   color: whitesmoke;
   border: 1px solid rgb(199, 74, 65);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: rgb(116, 20, 13);
   }
 }

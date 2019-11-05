@@ -63,8 +63,9 @@ button {
   border: 1px solid #3a6fa0;
 }
 
-.btn-start:hover,
-.btn-restart:hover {
+.btn-start:hover, .btn-start:focus,
+.btn-restart:hover,
+.btn-restart:focus {
   background-color: #264969;
 }
 
@@ -74,7 +75,7 @@ button {
   border: 1px solid #c74a41;
 }
 
-.btn-end:hover {
+.btn-end:hover, .btn-end:focus {
   background-color: #74140d;
 }
 

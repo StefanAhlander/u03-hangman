@@ -61,7 +61,24 @@ function renderMessage(message = `Du har ${6 - state.guesses} gissningar kvar.`)
 function attachGameControlls() {
   state.letters.addEventListener("click", letterClickHandler);
   state.endGame.addEventListener("click", init);
-  window.addEventListener("keyup", keyPressHandler);
+  window.addEventListener("keypress", keyPressHandler);
+  state.endGame.addEventListener("keypress", function pressReturn(event) {
+    event.preventDefault();
+    return false;
+  });
+}
+
+
+function handleGameInput(elm, key) {
+  removeKey(elm, key);
+  checkForCharInWord(key);
+  checkForEndOfGame();
+}
+
+
+function removeKey(elm, key) {
+  elm.parentElement.removeChild(elm);
+  state.pressedKeys.push(key);
 }
 
 
@@ -71,34 +88,26 @@ function letterClickHandler(event) {
 
   if (clickedChar.nodeName !== "SPAN") return;
 
-  clickedChar.parentElement.removeChild(clickedChar);
-
   let char = clickedChar.innerText.toLowerCase();
 
-  checkForCharInWord(char);
-  checkForEndOfGame();
+  handleGameInput(clickedChar, char);
 }
 
 
 function keyPressHandler(event) {
   let pressedKey = event.key.toLowerCase();
-  if (pressedKey === " ") {
-    window.removeEventListener("keyup", keyPressHandler);
+
+  if ((pressedKey === "enter" && document.activeElement === state.endGame)) {
+    window.removeEventListener("keypress", keyPressHandler);
     init();
     return;
   }
-  if (!state.alphabet.includes(pressedKey) || state.pressedKeys.includes(pressedKey)) return true;
-
-  state.pressedKeys.push(pressedKey);
+  if (!state.alphabet.includes(pressedKey) || state.pressedKeys.includes(pressedKey)) return;
 
   let keyElm = document.querySelector(`[data-char=${pressedKey}]`);
 
-  keyElm.parentElement.removeChild(keyElm);
-
-  checkForCharInWord(pressedKey);
-  checkForEndOfGame();
-
-  return true;
+  handleGameInput(keyElm, pressedKey);
+  return;
 }
 
 
@@ -188,6 +197,9 @@ function gameController() {
   state.alphabet = alphabet.toLowerCase().split("");
   state.pressedKeys = [];
 
+  /***** For testing only */
+  console.log(state.wordArr);
+
   renderCurrentWord();
   renderHangmanImage();
   renderLetters();
@@ -197,7 +209,7 @@ function gameController() {
 
 
 function lossController() {
-  window.removeEventListener("keyup", keyPressHandler);
+  window.removeEventListener("keypress", keyPressHandler);
   state.restart = document.querySelector("#restart");
 
   function restartGame() {
