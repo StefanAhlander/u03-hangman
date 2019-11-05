@@ -32,34 +32,72 @@ function initialController() {
   startBtn.addEventListener("click", startGame);
 }
 
-function renderCurrentWord(word, currentWord) {
-  word.forEach((char, index) => {
+function renderCurrentWord() {
+  state.wordArr.forEach((char, index) => {
     let newChar = document.createElement("span");
     newChar.innerText = "?";
-    currentWord.appendChild(newChar);
+    state.currentWord.appendChild(newChar);
   });
 }
 
-function renderGameBoard(gameBoard) {
+function renderHangmanImage() {
+  state.hangmanImage.src = `../images/h${state.guesses}.png`;
+}
+
+function renderLetters() {
+  state.alphabet.forEach((char) => {
+    let letter = document.createElement("span");
+    letter.innerText = char;
+    letter.dataset.char = char;
+    state.letters.appendChild(letter);
+  })
+}
+
+function renderMessage(message = `Du har ${6 - state.guesses} gissningar kvar.`) {
+  state.messageBar.innerHTML = `<p>${message}</p>`;
+}
+
+function attachGameControlls() {
+  state.letters.addEventListener("click", letterClickHandler);
+  state.endGame.addEventListener("click", init);
+}
+
+function letterClickHandler(event) {
+  let clickedChar = event.target;
+
+  clickedChar.parentElement.removeChild(clickedChar);
+
+  let char = clickedChar.dataset.char;
+  if (state.wordArr.includes(char)) {
+    let index = state.wordArr.indexOf(char);
+    while (index != -1) {
+      state.currentWord.children[index + 1].innerText = char;
+      let continueFrom = ++index;
+      index = state.wordArr.indexOf(char, continueFrom);
+    }
+  } else {
+    state.guesses++;
+    renderMessage();
+  }
 
 }
 
-
 function gameController() {
   state.word = wordArray[Math.floor(Math.random() * wordArray.length)];
-  let currentWord = document.querySelector("#current-word");
-  let gameBoard = document.querySelector("#game-board");
-  let message = document.querySelector("#message");
-  let letters = document.querySelector("#letters");
-  let alphabet = "abcdefghijklmnopqrstuvwxyzåäö".split("");
-  let word = state.word.split("");
+  state.word = "hello"; // for testing
+  state.wordArr = state.word.split("");
+  state.currentWord = document.querySelector("#current-word");
+  state.hangmanImage = document.querySelector("#hangman-image");
+  state.messageBar = document.querySelector("#message-bar");
+  state.letters = document.querySelector("#letters");
+  state.endGame = document.querySelector("#end-game");
+  state.alphabet = "abcdefghijklmnopqrstuvwxyzåäö".split("");
 
-  renderCurrentWord(word, currentWord);
-  renderGameBoard();
+  renderCurrentWord();
+  renderHangmanImage();
   renderLetters();
   renderMessage(`Välj bokstav i fältet nedan. Du har ${6 - state.guesses} gissningar kvar.`);
-
-
+  attachGameControlls();
 }
 
 window.onload = init;

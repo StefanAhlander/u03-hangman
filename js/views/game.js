@@ -3,8 +3,10 @@ export default `
   <p>Ord att gissa: </p>
 </section>
 
-<canvas id="game-board"></canvas>
+<img src="../../images/h0.png" id="hangman-image"></img>
 
-<section id="message"></section>
+<section id="message-bar"></section>
 
-<section id="letters"></section>`;
+<section id="letters"></section>
+
+<section><button id="end-game">Sluta spela</button></section>`;

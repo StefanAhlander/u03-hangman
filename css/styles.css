@@ -1,4 +1,10 @@
 #current-word p {
   display: inline;
 }
+
+img {
+  border: 1px solid gray;
+  width: 100%;
+  max-width: 407px;
+}
 /*# sourceMappingURL=styles.css.map */
