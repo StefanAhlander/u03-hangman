@@ -39,6 +39,10 @@ main#app p {
   margin-bottom: 0.5rem;
 }
 
+main#app section:last-of-type {
+  margin-bottom: 4rem;
+}
+
 button {
   cursor: pointer;
   border-radius: 0.3rem;
@@ -190,9 +194,6 @@ footer p {
     margin: 0.2rem;
     padding: 0.4rem 0.8rem;
     font-size: 1.1rem;
-  }
-  #end-game {
-    margin-bottom: 5rem;
   }
 }
 /*# sourceMappingURL=styles.css.map */

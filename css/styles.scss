@@ -36,6 +36,10 @@ main#app {
   p {
     margin-bottom: 0.5rem;
   }
+
+  section:last-of-type {
+    margin-bottom: 4rem;
+  }
 }
 
 button {
@@ -107,7 +111,6 @@ footer {
     border: 2px solid darkslategrey;
     width: 100%;
     max-width: 407px;
-    min-height: 355px;
   }
 }
 
@@ -195,9 +198,5 @@ footer {
       padding: 0.4rem 0.8rem;
       font-size: 1.1rem;
     }
-  }
-
-  #end-game {
-    margin-bottom: 5rem;
   }
 }
