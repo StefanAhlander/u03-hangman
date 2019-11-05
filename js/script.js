@@ -34,7 +34,7 @@ function renderCurrentWord() {
 }
 
 function renderHangmanImage() {
-  state.hangmanImage.src = `../images/h${state.guesses}.png`;
+  state.hangmanImage.src = `./images/h${state.guesses}.png`;
 }
 
 /** Render all the letters of the alphabet as new elements appended to the letters-section
