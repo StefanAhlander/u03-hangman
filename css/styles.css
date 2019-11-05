@@ -26,7 +26,7 @@ main#app {
   margin: 0 auto;
   padding: 0 1rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 main#app h2 {
@@ -40,9 +40,6 @@ main#app p {
 }
 
 button {
-  background-color: #3a6fa0;
-  color: whitesmoke;
-  border: 1px solid #3a6fa0;
   cursor: pointer;
   border-radius: 0.3rem;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -55,8 +52,26 @@ button {
   transition: background-color 0.1s ease-in-out;
 }
 
-button:hover {
+.btn-start,
+.btn-restart {
+  background-color: #3a6fa0;
+  color: whitesmoke;
+  border: 1px solid #3a6fa0;
+}
+
+.btn-start:hover,
+.btn-restart:hover {
   background-color: #264969;
+}
+
+.btn-end {
+  background-color: #c74a41;
+  color: whitesmoke;
+  border: 1px solid #c74a41;
+}
+
+.btn-end:hover {
+  background-color: #74140d;
 }
 
 footer {
@@ -73,13 +88,111 @@ footer p {
   text-align: right;
 }
 
-#current-word p {
-  display: inline;
+#current-word {
+  text-align: center;
 }
 
-img {
-  border: 1px solid gray;
+#current-word p {
+  display: inline;
+  font-size: 1.5rem;
+}
+
+#current-word span {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+#hangman-image-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1rem 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#hangman-image-section img {
+  border: 2px solid darkslategrey;
   width: 100%;
   max-width: 407px;
+}
+
+#message-bar {
+  margin-bottom: 1rem;
+}
+
+#message-bar p {
+  border-bottom: 1px solid darkslategrey;
+  text-align: center;
+}
+
+#letters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#letters span {
+  background-color: steelblue;
+  border: 1px solid darkslategrey;
+  border-radius: 0.3rem;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: whitesmoke;
+  margin: 0.3rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  -webkit-transition: background-color 0.1s ease-in-out;
+  transition: background-color 0.1s ease-in-out;
+}
+
+#letters span:hover {
+  background-color: #103d63;
+}
+
+@media screen and (max-width: 500px) {
+  header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.8rem;
+    text-align: center;
+  }
+  main#app h2 {
+    font-size: 1.3rem;
+  }
+  main#app p {
+    margin-bottom: 0.5rem;
+  }
+  #current-word p {
+    font-size: 1.1rem;
+  }
+  #current-word span {
+    font-size: 1.5rem;
+  }
+  #hangman-image-section {
+    padding: 0.5rem 0;
+  }
+  #hangman-image-section img {
+    max-width: 70%;
+  }
+  #message-bar {
+    margin-bottom: 0.5rem;
+  }
+  #letters span {
+    margin: 0.2rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 1.1rem;
+  }
+  #end-game {
+    margin-bottom: 5rem;
+  }
 }
 /*# sourceMappingURL=styles.css.map */
