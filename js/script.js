@@ -7,7 +7,7 @@ import lossView from "./views/loss.js";
 import winView from "./views/win.js";
 
 /** Find starting point in the DOM for setting the different views. */
-const game = document.querySelector("#app");
+const gameBoard = document.querySelector("#app");
 
 /** Initialize state as a variable of global scope, accessible in the whole code. */
 let state = {};
@@ -17,7 +17,7 @@ let state = {};
  *  the scope variable in the templates.
  */
 function renderView(view) {
-  game.innerHTML = view(state);
+  gameBoard.innerHTML = view(state);
 }
 
 
@@ -30,7 +30,7 @@ function renderCurrentWord() {
   state.wordArr.forEach(() => {
     let newChar = document.createElement("span");
     newChar.innerText = "?";
-    state.currentWord.appendChild(newChar);
+    state.currentWordHolder.appendChild(newChar);
   });
 }
 
@@ -48,8 +48,8 @@ function renderLetters() {
     let letter = document.createElement("span");
     letter.innerText = char.toLowerCase();
     letter.dataset.char = char.toLowerCase();
-    state.letters.appendChild(letter);
-  })
+    state.lettersHolder.appendChild(letter);
+  });
 }
 
 
@@ -59,12 +59,14 @@ function renderMessage(message = `Du har ${6 - state.guesses} gissningar kvar.`)
 
 
 function attachGameControlls() {
-  state.letters.addEventListener("click", letterClickHandler);
-  state.endGame.addEventListener("click", init);
-  window.addEventListener("keypress", keyPressHandler);
-  state.endGame.addEventListener("keypress", function pressReturn(event) {
+  state.lettersHolder.addEventListener("click", handleMouseClick);
+  state.endGameBtn.addEventListener("click", init);
+  window.addEventListener("keypress", handleKeyPress);
+  /** Prevent default behaviour of the end-game-button. Keypress is handled in
+   * the handleKeyPress event handler.
+   */
+  state.endGameBtn.addEventListener("keypress", function pressReturn(event) {
     event.preventDefault();
-    return false;
   });
 }
 
@@ -76,38 +78,45 @@ function handleGameInput(elm, key) {
 }
 
 
+/** Remove the element corresponding to the pressed key and push the key value
+ *  to the array for allready pressed keys for future comparison.
+ */
 function removeKey(elm, key) {
   elm.parentElement.removeChild(elm);
   state.pressedKeys.push(key);
 }
 
 
-function letterClickHandler(event) {
-  /** Find out what letter/key was clicked. */
-  let clickedChar = event.target;
-
-  if (clickedChar.nodeName !== "SPAN") return;
-
-  let char = clickedChar.innerText.toLowerCase();
-
-  handleGameInput(clickedChar, char);
+function handleMouseClick(event) {
+  let elm = event.target;
+  if (elm.nodeName !== "SPAN") return;
+  let key = elm.innerText.toLowerCase();
+  handleGameInput(elm, key);
 }
 
 
-function keyPressHandler(event) {
-  let pressedKey = event.key.toLowerCase();
+function handleKeyPress(event) {
+  let key = event.key.toLowerCase();
 
-  if ((pressedKey === "enter" && document.activeElement === state.endGame)) {
-    window.removeEventListener("keypress", keyPressHandler);
+  /** If the key pressed is enter and the rnd-game-button is in focus
+   *  end the game.
+   */
+  if ((key === "enter" && document.activeElement === state.endGameBtn)) {
+    window.removeEventListener("keypress", handleKeyPress);
     init();
     return;
   }
-  if (!state.alphabet.includes(pressedKey) || state.pressedKeys.includes(pressedKey)) return;
 
-  let keyElm = document.querySelector(`[data-char=${pressedKey}]`);
+  /** If either the key pressed is not part of the alphabet or the key has 
+   *  allready been pressed return without action.
+   */
+  if (!state.alphabet.includes(key) || state.pressedKeys.includes(key)) {
+    return;
+  }
 
-  handleGameInput(keyElm, pressedKey);
-  return;
+  /** Else handle the input. */
+  let elm = document.querySelector(`[data-char=${key}]`);
+  handleGameInput(elm, key);
 }
 
 
@@ -124,7 +133,8 @@ function checkForCharInWord(char) {
     let index = state.wordArr.indexOf(char);
     while (index != -1) {
       /** For each hit in the array change the "?" to the clicked letter/key. */
-      state.currentWord.children[index + 1].innerText = char;
+      state.currentWordHolder.children[index + 1].innerText = char;
+
       /** Change the current index in the word-array to true for later testing if
        *   if the victory-condition is met.
        */
@@ -133,7 +143,7 @@ function checkForCharInWord(char) {
       index = state.wordArr.indexOf(char, continueFrom);
     }
   } else {
-    /** Not a hit so increasenumer of guesses, redraw image and update message. */
+    /** Not a hit so increase number of guesses, redraw image and update message. */
     state.guesses++;
     renderHangmanImage();
     renderMessage();
@@ -156,25 +166,19 @@ function checkForEndOfGame() {
 
 
 function init() {
-  state = {
-    guesses: 0,
-    maxguesses: 6
-  };
-
   renderView(initialView);
   initialController();
 }
 
 
+function startGame() {
+  renderView(gameView);
+  gameController();
+};
+
+
 function initialController() {
   let startBtn = document.querySelector("#startBtn");
-
-  function startGame() {
-    startBtn.removeEventListener("click", startGame);
-    renderView(gameView);
-    gameController();
-  };
-
   startBtn.addEventListener("click", startGame);
 }
 
@@ -188,16 +192,20 @@ function initialController() {
  *  - Calls the attachGameControlls-function to initialize the event handlers.   
  */
 function gameController() {
+  state = {
+    guesses: 0,
+    maxguesses: 6
+  };
   state.wordArr = wordArray[Math.floor(Math.random() * wordArray.length)].toLowerCase().split("");
-  state.currentWord = document.querySelector("#current-word");
+  state.currentWordHolder = document.querySelector("#current-word");
   state.hangmanImage = document.querySelector("#hangman-image");
   state.messageBar = document.querySelector("#message-bar");
-  state.letters = document.querySelector("#letters");
-  state.endGame = document.querySelector("#end-game");
+  state.lettersHolder = document.querySelector("#letters");
+  state.endGameBtn = document.querySelector("#end-game");
   state.alphabet = alphabet.toLowerCase().split("");
   state.pressedKeys = [];
 
-  /***** For testing only */
+  /***** For testing only *****/
   console.log(state.wordArr);
 
   renderCurrentWord();
@@ -209,15 +217,10 @@ function gameController() {
 
 
 function lossController() {
-  window.removeEventListener("keypress", keyPressHandler);
+  window.removeEventListener("keypress", handleKeyPress);
   state.restart = document.querySelector("#restart");
 
-  function restartGame() {
-    state.restart.removeEventListener("click", restartGame);
-    init();
-  }
-
-  state.restart.addEventListener("click", restartGame);
+  state.restart.addEventListener("click", startGame);
 }
 
 
