@@ -1,5 +1,6 @@
 import wordArray from "./models/word-array.js";
 import alphabet from "./models/alphabet.js";
+import messages from "./models/messages.js";
 
 import initialView from "./views/initial.js";
 import gameView from "./views/game.js";
@@ -53,8 +54,9 @@ function renderLetters() {
 }
 
 
-function renderMessage(message = `Du har ${6 - state.guesses} gissningar kvar.`) {
-  state.messageBar.innerHTML = `<p>${message}</p>`;
+function renderMessage(message = messages.default) {
+  let newMessage = message.replace("#PLACEHOLDER#", `${state.maxguesses - state.guesses}`);
+  state.messageBar.innerHTML = `<p>${newMessage}</p>`;
 }
 
 
@@ -211,7 +213,7 @@ function gameController() {
   renderCurrentWord();
   renderHangmanImage();
   renderLetters();
-  renderMessage(`Välj bokstav i fältet nedan. Du har ${state.maxguesses - state.guesses} gissningar kvar.`);
+  renderMessage(messages.initial);
   attachGameControlls();
 }
 
