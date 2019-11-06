@@ -24,7 +24,6 @@ function renderView(view) {
   gameBoard.innerHTML = view(state);
 }
 
-
 /** Render placeholders for the current word to be guessed. Loop over the word-Array
  *  and for each character create a span-element containing a "?". Append the elements
  *  to the section for the word in the game-view. The true content of the letters
@@ -38,11 +37,9 @@ function renderCurrentWord() {
   });
 }
 
-
 function renderHangmanImage() {
   state.hangmanImage.src = `./images/h${state.guesses}.png`;
 }
-
 
 /** Render all the letters of the alphabet as new elements appended to the letters-section
  *  of the game-view.
@@ -55,12 +52,10 @@ function renderLetters() {
   });
 }
 
-
 function renderMessage(message = messages.default) {
   let newMessage = message.replace("#PLACEHOLDER#", `${state.maxguesses - state.guesses}`);
   state.messageBar.innerHTML = `<p>${newMessage}</p>`;
 }
-
 
 function attachGameControlls() {
   state.lettersHolder.addEventListener("click", handleMouseClick);
@@ -74,13 +69,11 @@ function attachGameControlls() {
   });
 }
 
-
 function handleGameInput(elm, key) {
   removeKey(elm, key);
   checkForCharInWord(key);
   checkForEndOfGame();
 }
-
 
 /** Remove the element corresponding to the pressed key and push the key value
  *  to the array for allready pressed keys for future comparison.
@@ -90,14 +83,12 @@ function removeKey(elm, key) {
   state.pressedKeys.push(key);
 }
 
-
 function handleMouseClick(event) {
   let elm = event.target;
   if (elm.nodeName !== "SPAN") return;
   let key = elm.innerText.toLowerCase();
   handleGameInput(elm, key);
 }
-
 
 function handleKeyPress(event) {
   let key = event.key.toLowerCase();
@@ -119,7 +110,6 @@ function handleKeyPress(event) {
   /** Else handle the input. */
   handleGameInput(document.querySelector(`[data-char=${key}]`), key);
 }
-
 
 /** Check if the clicked letter/key is present in the current word.
  *    
@@ -151,7 +141,6 @@ function checkForCharInWord(char) {
   }
 }
 
-
 function checkForEndOfGame() {
   if (state.guesses === state.maxguesses) {
     renderView(lossView);
@@ -165,23 +154,19 @@ function checkForEndOfGame() {
   }
 }
 
-
 function init() {
   renderView(initialView);
   initialController();
 }
-
 
 function startGame() {
   renderView(gameView);
   gameController();
 };
 
-
 function initialController() {
   document.querySelector("#startBtn").addEventListener("click", startGame);
 }
-
 
 /**
  *  The main game-controller.
@@ -215,14 +200,12 @@ function gameController() {
   attachGameControlls();
 }
 
-
 function lossController() {
   /** Remove event listner from window-object to avoid registering multiple handlers. */
   window.removeEventListener("keypress", handleKeyPress);
 
   document.querySelector("#restart").addEventListener("click", startGame);
 }
-
 
 /**
  * The game has been won. Since the actions currently are the same as in the case of
