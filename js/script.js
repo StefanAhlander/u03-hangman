@@ -49,6 +49,9 @@ function renderLetters() {
     let letter = document.createElement("span");
     letter.innerText = letter.dataset.char = char.toLowerCase();
     state.lettersHolder.appendChild(letter);
+
+    /** Set speech handlers used to display use of closures. */
+    setSpeechHandlers(letter);
   });
 }
 
@@ -213,6 +216,29 @@ function lossController() {
  */
 function winController() {
   lossController();
+}
+
+/** The way this code is structured I have found no practical direct use of
+ *  closures. This piece of speech-api code is included to demonstrate closure 
+ *  techniques.
+ * 
+ *  The event handler (function) attached to the click event on the key-elements 
+ *  (letter) has access to the local synth and sayThis variables because of where
+ *  it is defined. At the time of definition theese variables are in scope for the
+ *  function and they therefore remain accessable by the function when it is invoked
+ *  later, in another scope, when a letter is clicked on. 
+ */
+function setSpeechHandlers(letter) {
+  if ("speechSynthesis" in window) {
+    let synth = window.speechSynthesis;
+    let sayThis = new SpeechSynthesisUtterance(letter.innerText);
+
+    let speechHandler = function () {
+      synth.speak(sayThis);
+    }
+
+    letter.addEventListener("click", speechHandler);
+  }
 }
 
 window.onload = init;
