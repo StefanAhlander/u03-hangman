@@ -51,7 +51,7 @@ function renderLetters() {
     state.lettersHolder.appendChild(letter);
 
     /** Set speech handlers used to display use of closures. */
-    setSpeechHandlers(letter);
+    setSpeechHandler(letter);
   });
 }
 
@@ -228,10 +228,11 @@ function winController() {
  *  function and they therefore remain accessable by the function when it is invoked
  *  later, in another scope, when a letter is clicked on. 
  */
-function setSpeechHandlers(letter) {
+function setSpeechHandler(letter) {
   if ("speechSynthesis" in window) {
     let synth = window.speechSynthesis;
     let sayThis = new SpeechSynthesisUtterance(letter.innerText);
+    sayThis.lang = "sv-SE"; // Maybe in the future...
 
     let speechHandler = function () {
       synth.speak(sayThis);
