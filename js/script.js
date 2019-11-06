@@ -1,3 +1,6 @@
+/** Words, alphabet and messages are imported so that localization only requires changes
+ *  in the medels and views and not in the code.
+ */
 import wordArray from "./models/word-array.js";
 import alphabet from "./models/alphabet.js";
 import messages from "./models/messages.js";
@@ -47,8 +50,7 @@ function renderHangmanImage() {
 function renderLetters() {
   state.alphabet.forEach((char) => {
     let letter = document.createElement("span");
-    letter.innerText = char.toLowerCase();
-    letter.dataset.char = char.toLowerCase();
+    letter.innerText = letter.dataset.char = char.toLowerCase();
     state.lettersHolder.appendChild(letter);
   });
 }
@@ -112,13 +114,10 @@ function handleKeyPress(event) {
   /** If either the key pressed is not part of the alphabet or the key has 
    *  allready been pressed return without action.
    */
-  if (!state.alphabet.includes(key) || state.pressedKeys.includes(key)) {
-    return;
-  }
+  if (!state.alphabet.includes(key) || state.pressedKeys.includes(key)) return;
 
   /** Else handle the input. */
-  let elm = document.querySelector(`[data-char=${key}]`);
-  handleGameInput(elm, key);
+  handleGameInput(document.querySelector(`[data-char=${key}]`), key);
 }
 
 
@@ -180,8 +179,7 @@ function startGame() {
 
 
 function initialController() {
-  let startBtn = document.querySelector("#startBtn");
-  startBtn.addEventListener("click", startGame);
+  document.querySelector("#startBtn").addEventListener("click", startGame);
 }
 
 
@@ -219,10 +217,10 @@ function gameController() {
 
 
 function lossController() {
+  /** Remove event listner from window-object to avoid registering multiple handlers. */
   window.removeEventListener("keypress", handleKeyPress);
-  state.restart = document.querySelector("#restart");
 
-  state.restart.addEventListener("click", startGame);
+  document.querySelector("#restart").addEventListener("click", startGame);
 }
 
 
