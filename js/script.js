@@ -219,9 +219,6 @@ function gameController() {
   state.alphabet = alphabet.toLowerCase().split("");
   state.pressedKeys = [];
 
-  /***** For testing only *****/
-  console.log(state.wordArr);
-
   renderCurrentWord();
   renderHangmanImage();
   renderLetters();
