@@ -17,8 +17,8 @@ const gameBoard = document.querySelector("#app");
 let state = {};
 
 /** Set event-listner to toggle sound on or off. */
-document.querySelector("#toggle-sound").addEventListener("click", (event) => {
-  event.target.parentNode.firstChild.classList.toggle("sound-off");
+document.querySelector("#toggle-sound input").addEventListener("click", () => {
+  document.querySelector("#sound-icon").classList.toggle("sound-off");
 });
 
 /** This piece of speech-api code is included this way to demonstrate
@@ -37,7 +37,7 @@ let speak = (function () {
 
   return function (text) {
     if (synth === undefined ||
-      document.querySelector("#toggle-sound").firstChild.classList.contains("sound-off")) return;
+      document.querySelector("#sound-icon").classList.contains("sound-off")) return;
     let sayThis = new SpeechSynthesisUtterance(text);
     sayThis.lang = "sv-SE"; // Currently only works in Edge...
     synth.speak(sayThis);
