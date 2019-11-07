@@ -15,9 +15,44 @@ header {
 
   h1 {
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem;
     padding: 1rem;
     text-align: center;
+    width: 500px;
+  }
+
+  #toggle-sound {
+    cursor: pointer;
+    float: right;
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+
+
+  span>span {
+    background-image: url(../images/sound-on.svg);
+    background-size: cover;
+    filter: invert(1);
+    height: 1.5rem;
+    width: 1.5rem;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+
+  input {
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  .sound-off {
+    background-image: url(../images/sound-off.svg);
   }
 }
 

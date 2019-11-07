@@ -16,6 +16,34 @@ const gameBoard = document.querySelector("#app");
 /** Initialize state as a variable of global scope, accessible in the whole code. */
 let state = {};
 
+/** Set event-listner to toggle sound on or off. */
+document.querySelector("#toggle-sound").addEventListener("click", (event) => {
+  event.target.parentNode.firstChild.classList.toggle("sound-off");
+});
+
+/** This piece of speech-api code is included this way to demonstrate
+ *  closure techniques. And IIFE.
+ * 
+ *  Because the variable synth is in scope when the speak function is declared
+ *  the speak function will have access to it whenever the speak funtion
+ *  is invoked.
+ */
+let speak = (function () {
+  let synth;
+
+  if ("speechSynthesis" in window) {
+    synth = window.speechSynthesis;
+  }
+
+  return function (text) {
+    if (synth === undefined ||
+      document.querySelector("#toggle-sound").firstChild.classList.contains("sound-off")) return;
+    let sayThis = new SpeechSynthesisUtterance(text);
+    sayThis.lang = "sv-SE"; // Currently only works in Edge...
+    synth.speak(sayThis);
+  }
+})();
+
 /** Function for rendering the different views. Views are imported as functions in order
  *  to be able to pass arguments to the different views. For example to be able to access
  *  the scope variable in the templates.
@@ -49,9 +77,6 @@ function renderLetters() {
     let letter = document.createElement("span");
     letter.innerText = letter.dataset.char = char.toLowerCase();
     state.lettersHolder.appendChild(letter);
-
-    /** Set speech handlers used to display use of closures. */
-    setSpeechHandler(letter);
   });
 }
 
@@ -73,6 +98,7 @@ function attachGameControlls() {
 }
 
 function handleGameInput(elm, key) {
+  speak(key);
   removeKey(elm, key);
   checkForCharInWord(key);
   checkForEndOfGame();
@@ -204,42 +230,16 @@ function gameController() {
 }
 
 function lossController() {
+  speak(messages.lossMessage);
   /** Remove event listner from window-object to avoid registering multiple handlers. */
   window.removeEventListener("keypress", handleKeyPress);
-
   document.querySelector("#restart").addEventListener("click", startGame);
 }
 
-/**
- * The game has been won. Since the actions currently are the same as in the case of
- * a loss just call the loss-controller.
- */
 function winController() {
-  lossController();
-}
-
-/** The way this code is structured I have found no practical direct use of
- *  closures. This piece of speech-api code is included to demonstrate closure 
- *  techniques.
- * 
- *  The event handler (function) attached to the click event on the key-elements 
- *  (letter) has access to the local synth and sayThis variables because of where
- *  it is defined. At the time of definition theese variables are in scope for the
- *  function and they therefore remain accessable by the function when it is invoked
- *  later, in another scope, when a letter is clicked on. 
- */
-function setSpeechHandler(letter) {
-  if ("speechSynthesis" in window) {
-    let synth = window.speechSynthesis;
-    let sayThis = new SpeechSynthesisUtterance(letter.innerText);
-    sayThis.lang = "sv-SE"; // Maybe in the future...
-
-    let speechHandler = function () {
-      synth.speak(sayThis);
-    }
-
-    letter.addEventListener("click", speechHandler);
-  }
+  speak(messages.winMessage);
+  window.removeEventListener("keypress", handleKeyPress);
+  document.querySelector("#restart").addEventListener("click", startGame);
 }
 
 window.onload = init;
