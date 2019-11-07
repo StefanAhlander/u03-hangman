@@ -80,10 +80,6 @@ main#app p {
   margin-bottom: 0.5rem;
 }
 
-main#app section:last-of-type {
-  margin-bottom: 4rem;
-}
-
 button {
   cursor: pointer;
   border-radius: 0.3rem;
@@ -91,7 +87,7 @@ button {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   font-size: 1.1rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 1rem 0 4rem;
   padding: 0.8rem 1rem;
   -webkit-transition: background-color 0.1s ease-in-out;
   transition: background-color 0.1s ease-in-out;

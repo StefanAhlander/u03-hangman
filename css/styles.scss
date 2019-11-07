@@ -78,10 +78,6 @@ main#app {
   p {
     margin-bottom: 0.5rem;
   }
-
-  section:last-of-type {
-    margin-bottom: 4rem;
-  }
 }
 
 button {
@@ -90,7 +86,7 @@ button {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   font-size: 1.1rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 1rem 0 4rem;
   padding: 0.8rem 1rem;
   transition: background-color 0.1s ease-in-out;
 }
