@@ -18,7 +18,9 @@ let state = {};
 
 /** Set event-listner to toggle sound on or off. */
 document.querySelector("#toggle-sound input").addEventListener("click", () => {
-  document.querySelector("#sound-icon").classList.toggle("sound-off");
+  if ("speechSynthesis" in window) {
+    document.querySelector("#sound-icon").classList.toggle("sound-off");
+  }
 });
 
 /** This piece of speech-api code is included this way to demonstrate

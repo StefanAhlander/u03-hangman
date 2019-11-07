@@ -18,9 +18,9 @@ header {
 header h1 {
   font-size: 2rem;
   margin: 0 auto 2rem;
+  max-width: 500px;
   padding: 1rem;
   text-align: center;
-  width: 500px;
 }
 
 header #toggle-sound {
@@ -37,19 +37,20 @@ header #sound-icon {
   -webkit-filter: invert(1);
           filter: invert(1);
   height: 1.5rem;
-  width: 1.5rem;
+  left: 0.5rem;
+  margin-top: -0.4rem;
   position: absolute;
   top: 0.5rem;
-  left: 0.5rem;
+  width: 1.5rem;
 }
 
 header input {
   position: absolute;
-  top: 0rem;
-  left: 0rem;
   height: 2.5rem;
-  width: 2.5rem;
+  left: 0rem;
   opacity: 0;
+  top: 0rem;
+  width: 2.5rem;
   z-index: 2;
 }
 
