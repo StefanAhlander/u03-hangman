@@ -9,7 +9,8 @@ export default function (state) {
 </section>
 
 <section id="message-bar">
-  <p>Du lyckades inte klara av att gissa ordet. Du gissade fel ${state.maxguesses} gånger. Bättre lycka nästa gång...</P>
+  <p>Du lyckades inte klara av att gissa ordet. 
+  Ordet var ${state.word}. Du gissade fel ${state.maxguesses} gånger. Bättre lycka nästa gång...</P>
 </section>
 
 <section>

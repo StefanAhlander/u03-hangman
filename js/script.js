@@ -210,7 +210,8 @@ function gameController() {
     guesses: 0,
     maxguesses: 6
   };
-  state.wordArr = wordArray[Math.floor(Math.random() * wordArray.length)].toLowerCase().split("");
+  state.word = wordArray[Math.floor(Math.random() * wordArray.length)].toLowerCase();
+  state.wordArr = state.word.split("");
   state.currentWordHolder = document.querySelector("#current-word");
   state.hangmanImage = document.querySelector("#hangman-image");
   state.messageBar = document.querySelector("#message-bar");
