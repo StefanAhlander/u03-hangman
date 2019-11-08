@@ -5,9 +5,8 @@ Spelet ska vara responsivt och kunna spelas på flera olika plattformar, operati
 
 # Implementation
 
-Jag har byggt spelet lite mer modulärt än vad som var absolut nödvändigt för att klara uppgiften men detta ger
-möjlighet att implementera förändringar, förbättringar och att lokalisera spelet lättare än annars.
+Denna implementation har gått ut på att testa olika metodiker. Jag har försökt göra ett spel
+med så litet fotavtryck i det globala scopet som möjligt samt tillämpa funktinella
+programmerings metodiker.
 
-Exempelvis ligger spelets data och textinnehåll i externa moduler och kan på så sätt enkelt bytas ut.
-
-En live-version av spelet ligger upp på https://aahlander.se/u03-hangman/
+En live-version av spelet ligger upp på https://aahlander.se/u03-hangman-alt/
