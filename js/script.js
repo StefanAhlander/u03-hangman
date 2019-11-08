@@ -1,16 +1,12 @@
 window.addEventListener("load", function init() {
   window.removeEventListener("load", init);
 
-  (function (window) {
+  (function () {
     const wordArr = ["javascript", "katt", "hund", "hiss", "båt", "internet", "annanas", "banan", "äpple"];
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ".split("");
-    let selectedWord;
     let guesses = 0;
-    let msgHolderEl = document.querySelector("#message");
-    let startGameBtnEl = document.querySelector("#startGameBtn");
     let letterButtons = document.querySelector("#letterButtons");
     let letterBoxes = document.querySelector("#letterBoxes");
-    let letterBoxEls;
 
     function pipe(op, ...fns /* expression to operate on followed by a list of functions that will operate on the exp. */ ) {
       return fns.reduce((op, fn) => fn(op), op);
@@ -45,9 +41,12 @@ window.addEventListener("load", function init() {
       document.querySelector("#message").innerHTML = message;
     }
 
+    function renderImage() {
+      document.querySelector("#hangman").src = `../images/h${guesses}.png`;
+    }
+
     function removeButton(elm) {
       elm.parentNode.removeChild(elm);
-      return elm;
     }
 
     function listenForButtonClick() {
@@ -61,7 +60,7 @@ window.addEventListener("load", function init() {
     function handleButtonClick(evt) {
       let elm = evt.target;
       if (elm.nodeName !== "SPAN") return;
-      pipe(elm, checkForMatch, removeButton, checkForEnd);
+      pipe(elm, checkForMatch, removeButton, renderImage, checkForEnd);
     }
 
     function checkForMatch(elm) {
@@ -75,22 +74,29 @@ window.addEventListener("load", function init() {
       return elm;
     }
 
-    function checkForEnd(elm) {
+    function checkForEnd() {
       if (guesses === 6) {
-        removeBtnClickListner();
-        renderMessage("Du har förlorat. Bättre lycka nästa gång.")
+        endGame("Du har förlorat. Bättre lycka nästa gång.");
+      } else if ([...document.querySelectorAll("#letterBoxes span")].every((spanElm) => {
+          return spanElm.dataset.letter === "true";
+        })) {
+        endGame(`Du har vunnit med ${6-guesses} fel-gissningar kvar.`);
+      } else {
+        renderMessage(`Du har ${6-guesses} fel-gissningar kvar.`)
       }
-
     }
 
+    function endGame(message) {
+      removeBtnClickListner();
+      renderMessage(message);
+    }
 
+    function initializeGame() {
+      pipe(null, renderButtons, getNewWord, renderLetters, listenForButtonClick);
+    }
 
+    document.querySelector("#startGameBtn").addEventListener("click", initializeGame);
 
-
-    pipe(null, renderButtons, getNewWord, renderLetters, listenForButtonClick);
-
-
-
-
-  })(window);
+    initializeGame();
+  })();
 });
