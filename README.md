@@ -11,3 +11,9 @@ möjlighet att implementera förändringar, förbättringar och att lokalisera s
 Exempelvis ligger spelets data och textinnehåll i externa moduler och kan på så sätt enkelt bytas ut.
 
 En live-version av spelet ligger upp på https://aahlander.se/u03-hangman/
+
+# Extra
+
+Jag har också byggte en annan version av spelet där mitt syfte varit att lämna så litet avtryck i det globala scopet som möjligt samt att leka med funktionell programmering.
+
+Koden ligger i branch module-version och en live-version ligger på https://aahlander.se/u03-hangman-alt
