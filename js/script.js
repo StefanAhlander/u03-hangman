@@ -26,7 +26,6 @@ window.addEventListener("load", function init() {
         elm.dataset.letter = letter.toUpperCase();
         letterBoxes.appendChild(elm);
       });
-      console.log(word);
     }
 
     function renderButtons() {
@@ -44,7 +43,7 @@ window.addEventListener("load", function init() {
     }
 
     function renderImage() {
-      document.querySelector("#hangman").src = `../images/h${guesses}.png`;
+      document.querySelector("#hangman").src = `./images/h${guesses}.png`;
     }
 
     function removeButton(elm) {
