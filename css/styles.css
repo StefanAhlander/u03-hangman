@@ -12,7 +12,24 @@ body {
   margin: 0 auto;
 }
 
-.letterBtn {
+header {
+  background-color: whitesmoke;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+main > article {
+  margin: 1rem 0;
+}
+
+#letterBoxes {
+  font-size: 2rem;
+  letter-spacing: 0.5rem;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.letterBtn, .btn {
   background-color: gainsboro;
   border: 2px solid #222;
   border-radius: 3px;
@@ -22,9 +39,17 @@ body {
   margin: 0.2rem;
 }
 
-section > section {
+.btn {
+  background-color: #424f61;
+  color: white;
+  font-size: 1rem;
+  margin: 0 0 1rem;
+}
+
+#hangman {
   display: block;
-  margin: 1rem auto;
+  margin: 0 auto 1rem;
+  width: 70%;
 }
 
 #letterButtons {
@@ -37,5 +62,18 @@ section > section {
           flex-direction: row;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+}
+
+#message {
+  background-color: whitesmoke;
+  font-size: 1.5rem;
+  margin: 1rem 0 3rem;
+  padding: 0.5rem;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  text-align: right;
 }
 /*# sourceMappingURL=styles.css.map */

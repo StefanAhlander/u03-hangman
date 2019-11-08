@@ -1,10 +1,8 @@
 window.addEventListener("load", function init() {
-  window.removeEventListener("load", init);
-
   (function () {
     const wordArr = ["javascript", "katt", "hund", "hiss", "båt", "internet", "annanas", "banan", "äpple"];
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ".split("");
-    let guesses = 0;
+    let guesses;
     let letterButtons = document.querySelector("#letterButtons");
     let letterBoxes = document.querySelector("#letterBoxes");
 
@@ -14,6 +12,10 @@ window.addEventListener("load", function init() {
 
     function getNewWord() {
       return wordArr[Math.floor(Math.random() * wordArr.length)];
+    }
+
+    function removeIntroText() {
+      document.querySelector("main>article").innerHTML = "";
     }
 
     function renderLetters(word) {
@@ -37,7 +39,7 @@ window.addEventListener("load", function init() {
       });
     }
 
-    function renderMessage(message) {
+    function renderMessage(message = `Du har ${6-guesses} fel-gissningar kvar.`) {
       document.querySelector("#message").innerHTML = message;
     }
 
@@ -64,7 +66,7 @@ window.addEventListener("load", function init() {
     }
 
     function checkForMatch(elm) {
-      document.querySelectorAll("#letterBoxes span").forEach((spanElm) => {
+      letterBoxes.querySelectorAll("span").forEach((spanElm) => {
         if (spanElm.dataset.letter == elm.innerText) {
           spanElm.innerText = elm.innerText;
           spanElm.dataset.letter = elm.matched = true;
@@ -77,12 +79,12 @@ window.addEventListener("load", function init() {
     function checkForEnd() {
       if (guesses === 6) {
         endGame("Du har förlorat. Bättre lycka nästa gång.");
-      } else if ([...document.querySelectorAll("#letterBoxes span")].every((spanElm) => {
+      } else if ([...letterBoxes.querySelectorAll("span")].every((spanElm) => {
           return spanElm.dataset.letter === "true";
         })) {
         endGame(`Du har vunnit med ${6-guesses} fel-gissningar kvar.`);
       } else {
-        renderMessage(`Du har ${6-guesses} fel-gissningar kvar.`)
+        renderMessage();
       }
     }
 
@@ -92,11 +94,10 @@ window.addEventListener("load", function init() {
     }
 
     function initializeGame() {
-      pipe(null, renderButtons, getNewWord, renderLetters, listenForButtonClick);
+      guesses = 0;
+      pipe(null, removeIntroText, renderButtons, getNewWord, renderLetters, renderImage, renderMessage, listenForButtonClick);
     }
 
     document.querySelector("#startGameBtn").addEventListener("click", initializeGame);
-
-    initializeGame();
   })();
 });
