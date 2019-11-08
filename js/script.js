@@ -19,6 +19,7 @@ window.addEventListener("load", function init() {
     }
 
     function renderLetters(word) {
+      letterBoxes.rightAnswer = word;
       letterBoxes.innerHTML = "";
       [...word].forEach((letter) => {
         let elm = document.createElement("span");
@@ -77,7 +78,7 @@ window.addEventListener("load", function init() {
 
     function checkForEnd() {
       if (guesses === 6) {
-        endGame("Du har förlorat. Bättre lycka nästa gång.");
+        endGame(`Du har förlorat. Rätt ord var ${letterBoxes.rightAnswer}. Bättre lycka nästa gång.`);
       } else if ([...letterBoxes.querySelectorAll("span")].every((spanElm) => {
           return spanElm.dataset.letter === "true";
         })) {
