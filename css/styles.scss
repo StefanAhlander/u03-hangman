@@ -7,236 +7,72 @@
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 18px;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 header {
-  background-color: darkslategrey;
-  color: whitesmoke;
-
-  h1 {
-    font-size: 2rem;
-    margin: 0 auto 2rem;
-    max-width: 500px;
-    padding: 1rem;
-    text-align: center;
-  }
-
-  #toggle-sound {
-    cursor: pointer;
-    float: right;
-    position: relative;
-    height: 2.5rem;
-    width: 2.5rem;
-  }
-
-
-  #sound-icon {
-    background-image: url(../images/sound-on.svg);
-    background-size: cover;
-    filter: invert(1);
-    height: 1.5rem;
-    left: 0.5rem;
-    margin-top: -0.4rem;
-    position: absolute;
-    top: 0.5rem;
-    width: 1.5rem;
-  }
-
-  input {
-    position: absolute;
-    height: 2.5rem;
-    left: 0rem;
-    opacity: 0;
-    top: 0rem;
-    width: 2.5rem;
-    z-index: 2;
-  }
-
-
-  input:focus~span {
-    outline: 2px solid rgb(238, 51, 51);
-    outline-offset: 0.5rem;
-  }
-
-  #sound-icon.sound-off {
-    background-image: url(../images/sound-off.svg);
-  }
-}
-
-main#app {
-  margin: 0 auto;
-  padding: 0 1rem;
-  width: 100%;
-  max-width: 500px;
-
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  p {
-    margin-bottom: 0.5rem;
-  }
-}
-
-button {
-  cursor: pointer;
-  border-radius: 0.3rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin: 1rem 0 4rem;
-  padding: 0.8rem 1rem;
-  transition: background-color 0.1s ease-in-out;
-}
-
-.btn-start,
-.btn-restart {
-  background-color: rgb(58, 111, 160);
-  color: whitesmoke;
-  border: 1px solid rgb(58, 111, 160);
-
-  &:hover,
-  &:focus {
-    background-color: rgb(38, 73, 105);
-  }
-}
-
-.btn-end {
-  background-color: rgb(199, 74, 65);
-  color: whitesmoke;
-  border: 1px solid rgb(199, 74, 65);
-
-  &:hover,
-  &:focus {
-    background-color: rgb(116, 20, 13);
-  }
-}
-
-footer {
-  background-color: darkslategrey;
-  color: whitesmoke;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
-  p {
-    padding: 1rem;
-    text-align: right;
-  }
-}
-
-#current-word {
+  background-color: whitesmoke;
+  padding: 0.5rem 1rem;
   text-align: center;
-
-  p {
-    display: inline;
-    font-size: 1.5rem;
-  }
-
-  span {
-    font-size: 2rem;
-    text-transform: uppercase;
-  }
 }
 
-#hangman-image-section {
-  display: flex;
-  padding: 1rem 0;
-  justify-content: center;
-
-  img {
-    border: 2px solid darkslategrey;
-    width: 100%;
-    max-width: 407px;
-  }
+main>article {
+  margin: 1rem 0;
 }
 
-#message-bar {
-  margin-bottom: 1rem;
-
-  p {
-    border-bottom: 1px solid darkslategrey;
-    text-align: center;
-  }
+#letterBoxes {
+  font-size: 2rem;
+  letter-spacing: 0.5rem;
+  text-align: center;
+  text-decoration: underline;
 }
 
-#letters {
+.letterBtn {
+  background-color: gainsboro;
+  border: 2px solid #222;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 1rem;
+  margin: 0.2rem;
+}
+
+.btn {
+  @extend .letterBtn;
+  background-color: rgb(66, 79, 97);
+  color: white;
+  font-size: 1rem;
+  margin: 0 0 1rem;
+}
+
+button:hover,
+button:focus {
+  background-color: rgb(133, 102, 102);
+  box-shadow: 0 0 4px 2px rgba(11, 162, 231, 0.8);
+  color: white;
+}
+
+#hangman {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 70%;
+}
+
+#letterButtons {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
-  span {
-    background-color: steelblue;
-    border: 1px solid darkslategrey;
-    border-radius: 0.3rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    color: whitesmoke;
-    margin: 0.3rem;
-    padding: 0.5rem 1rem;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    transition: background-color 0.1s ease-in-out;
-
-    &:hover {
-      background-color: rgb(16, 61, 99);
-    }
-  }
 }
 
-@media screen and (max-width: 500px) {
-  header {
+#message {
+  background-color: whitesmoke;
+  font-size: 1.5rem;
+  margin: 1rem 0 3rem;
+  padding: 0.5rem;
+}
 
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      padding: 0.8rem;
-      text-align: center;
-    }
-  }
-
-  main#app {
-
-    h2 {
-      font-size: 1.3rem;
-    }
-
-    p {
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  #current-word {
-
-    p {
-      font-size: 1.1rem;
-    }
-
-    span {
-      font-size: 1.5rem;
-    }
-  }
-
-  #hangman-image-section {
-    padding: 0.5rem 0;
-
-    img {
-      max-width: 70%;
-    }
-  }
-
-  #message-bar {
-    margin-bottom: 0.5rem;
-  }
-
-  #letters {
-
-    span {
-      margin: 0.2rem;
-      padding: 0.4rem 0.8rem;
-      font-size: 1.1rem;
-    }
-  }
+footer {
+  position: fixed;
+  bottom: 0;
+  text-align: right;
 }
