@@ -45,6 +45,13 @@ main>article {
   margin: 0 0 1rem;
 }
 
+button:hover,
+button:focus {
+  background-color: rgb(133, 102, 102);
+  box-shadow: 0 0 4px 2px rgba(11, 162, 231, 0.8);
+  color: white;
+}
+
 #hangman {
   display: block;
   margin: 0 auto 1rem;

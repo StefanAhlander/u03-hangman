@@ -12,6 +12,16 @@ window.addEventListener("load", function init() {
       }
     }
 
+    let listenForActions = pipe(
+      listenForButtonClick,
+      listenForKeyPress
+    )
+
+    let removeActionsListner = pipe(
+      removeBtnClickListner,
+      removeKeyPressListner
+    )
+
     let startGame = pipe(
       resetGuesses,
       removeIntroText,
@@ -20,7 +30,7 @@ window.addEventListener("load", function init() {
       renderLetters,
       renderImage,
       renderMessage,
-      listenForButtonClick
+      listenForActions
     );
 
     let handleGameAction = pipe(
@@ -29,6 +39,34 @@ window.addEventListener("load", function init() {
       renderImage,
       checkForEnd
     );
+
+    function listenForKeyPress() {
+      document.addEventListener("keypress", handleKeyPress);
+    }
+
+    function removeKeyPressListner() {
+      document.removeEventListener("keypress", handleKeyPress);
+    }
+
+    function handleKeyPress(evt) {
+      if (!alphabet.includes(evt.key.toUpperCase()) ||
+        ![...letterButtons.querySelectorAll("button")]
+        .some((elm) => elm.innerText === evt.key.toUpperCase())) return;
+      handleGameAction(letterButtons.querySelector(`[data-letter="${evt.key.toUpperCase()}"]`));
+    }
+
+    function listenForButtonClick() {
+      letterButtons.addEventListener("click", handleButtonClick);
+    }
+
+    function removeBtnClickListner() {
+      letterButtons.removeEventListener("click", handleButtonClick);
+    }
+
+    function handleButtonClick(evt) {
+      if (evt.target.nodeName !== "BUTTON") return;
+      handleGameAction(evt.target);
+    }
 
     function getNewWord() {
       return wordArr[Math.floor(Math.random() * wordArr.length)];
@@ -56,9 +94,10 @@ window.addEventListener("load", function init() {
     function renderButtons() {
       letterButtons.innerHTML = "";
       alphabet.forEach((letter) => {
-        let elm = document.createElement("span");
+        let elm = document.createElement("button");
         elm.innerText = letter;
         elm.classList.add("letterBtn");
+        elm.dataset.letter = letter;
         letterButtons.appendChild(elm);
       });
     }
@@ -73,19 +112,6 @@ window.addEventListener("load", function init() {
 
     function removeButton(elm) {
       elm.parentNode.removeChild(elm);
-    }
-
-    function listenForButtonClick() {
-      letterButtons.addEventListener("click", handleButtonClick);
-    }
-
-    function removeBtnClickListner() {
-      letterButtons.removeEventListener("click", handleButtonClick);
-    }
-
-    function handleButtonClick(evt) {
-      if (evt.target.nodeName !== "SPAN") return;
-      handleGameAction(evt.target);
     }
 
     function checkForMatch(elm) {
@@ -112,7 +138,7 @@ window.addEventListener("load", function init() {
     }
 
     function endGame(message) {
-      removeBtnClickListner();
+      removeActionsListner();
       renderMessage(message);
     }
 
