@@ -15,12 +15,17 @@ window.addEventListener("load", function init() {
     let listenForActions = pipe(
       listenForButtonClick,
       listenForKeyPress
-    )
+    );
 
     let removeActionsListner = pipe(
       removeBtnClickListner,
       removeKeyPressListner
-    )
+    );
+
+    let endGame = pipe(
+      renderMessage,
+      removeActionsListner
+    );
 
     let startGame = pipe(
       resetGuesses,
@@ -135,11 +140,6 @@ window.addEventListener("load", function init() {
       } else {
         renderMessage();
       }
-    }
-
-    function endGame(message) {
-      removeActionsListner();
-      renderMessage(message);
     }
 
     document.querySelector("#startGameBtn").addEventListener("click", startGame);
