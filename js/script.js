@@ -12,11 +12,6 @@ window.addEventListener("load", function init() {
       }
     }
 
-    let listenForActions = pipe(
-      listenForButtonClick,
-      listenForKeyPress
-    );
-
     let endGame = pipe(
       renderMessage,
       removeBtnClickListner,
@@ -31,7 +26,8 @@ window.addEventListener("load", function init() {
       renderLetters,
       renderImage,
       renderMessage,
-      listenForActions
+      listenForButtonClick,
+      listenForKeyPress
     );
 
     let handleGameAction = pipe(
