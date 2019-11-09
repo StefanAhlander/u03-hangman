@@ -6,9 +6,29 @@ window.addEventListener("load", function init() {
     let letterButtons = document.querySelector("#letterButtons");
     let letterBoxes = document.querySelector("#letterBoxes");
 
-    function pipe(op, ...fns /* expression to operate on followed by a list of functions that will operate on the exp. */ ) {
-      return fns.reduce((op, fn) => fn(op), op);
+    function pipe(...fns) {
+      return function (op) {
+        fns.reduce((op, fn) => fn(op), op);
+      }
     }
+
+    let startGame = pipe(
+      resetGuesses,
+      removeIntroText,
+      renderButtons,
+      getNewWord,
+      renderLetters,
+      renderImage,
+      renderMessage,
+      listenForButtonClick
+    );
+
+    let handleGameAction = pipe(
+      checkForMatch,
+      removeButton,
+      renderImage,
+      checkForEnd
+    );
 
     function getNewWord() {
       return wordArr[Math.floor(Math.random() * wordArr.length)];
@@ -16,6 +36,10 @@ window.addEventListener("load", function init() {
 
     function removeIntroText() {
       document.querySelector("main>article").innerHTML = "";
+    }
+
+    function resetGuesses() {
+      guesses = 0;
     }
 
     function renderLetters(word) {
@@ -60,19 +84,18 @@ window.addEventListener("load", function init() {
     }
 
     function handleButtonClick(evt) {
-      let elm = evt.target;
-      if (elm.nodeName !== "SPAN") return;
-      pipe(elm, checkForMatch, removeButton, renderImage, checkForEnd);
+      if (evt.target.nodeName !== "SPAN") return;
+      handleGameAction(evt.target);
     }
 
     function checkForMatch(elm) {
       letterBoxes.querySelectorAll("span").forEach((spanElm) => {
-        if (spanElm.dataset.letter == elm.innerText) {
+        if (spanElm.dataset.letter === elm.innerText) {
           spanElm.innerText = elm.innerText;
-          spanElm.dataset.letter = elm.matched = true;
+          elm.matched = true;
         }
       });
-      if (!elm.matched === true) guesses++;
+      if (elm.matched !== true) guesses++;
       return elm;
     }
 
@@ -80,7 +103,7 @@ window.addEventListener("load", function init() {
       if (guesses === 6) {
         endGame(`Du har förlorat. Rätt ord var ${letterBoxes.rightAnswer}. Bättre lycka nästa gång.`);
       } else if ([...letterBoxes.querySelectorAll("span")].every((spanElm) => {
-          return spanElm.dataset.letter === "true";
+          return spanElm.innerText !== "?";
         })) {
         endGame(`Du har vunnit med ${6-guesses} fel-gissningar kvar.`);
       } else {
@@ -93,11 +116,6 @@ window.addEventListener("load", function init() {
       renderMessage(message);
     }
 
-    function initializeGame() {
-      guesses = 0;
-      pipe(null, removeIntroText, renderButtons, getNewWord, renderLetters, renderImage, renderMessage, listenForButtonClick);
-    }
-
-    document.querySelector("#startGameBtn").addEventListener("click", initializeGame);
+    document.querySelector("#startGameBtn").addEventListener("click", startGame);
   })();
 });
