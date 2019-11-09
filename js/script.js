@@ -17,14 +17,10 @@ window.addEventListener("load", function init() {
       listenForKeyPress
     );
 
-    let removeActionsListner = pipe(
-      removeBtnClickListner,
-      removeKeyPressListner
-    );
-
     let endGame = pipe(
       renderMessage,
-      removeActionsListner
+      removeBtnClickListner,
+      removeKeyPressListner
     );
 
     let startGame = pipe(
